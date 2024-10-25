@@ -11,12 +11,21 @@ O sistema oferece uma experiência prática e flexível, permitindo ao usuário 
 
 Funcionalidades
 -Senha Padrão: O sistema inicia com a senha "0000".
+
 *Inserção de Senha: O usuário pode digitar uma senha de quatro dígitos utilizando o teclado matricial.
+
 *Redefinição de Senha: Ao pressionar #, o sistema permite a redefinição da senha para uma nova sequência de quatro dígitos.
+
 *Verificação de Senha: Ao pressionar *, o sistema verifica a senha inserida.
+
 *Se a senha estiver correta, o sistema exibe "ABERTO" no LCD e acende o LED verde, simulando a abertura da fechadura.
+
 *Se a senha estiver incorreta, uma mensagem de "ERRO" é exibida e o LED vermelho permanece aceso, indicando que a fechadura está fechada.
+
 *Controle de LEDs: Indicação visual do status da fechadura.
+
 *LED Verde: Indica que a fechadura está aberta.
+
 *LED Vermelho: Indica que a fechadura está fechada.
+
 *Proteção de Memória: O sistema entra em um modo de espera (função FULL) quando a memória está cheia, aguardando que o usuário pressione # ou * para redefinir ou verificar a senha.
