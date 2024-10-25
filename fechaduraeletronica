@@ -1,1 +1,17 @@
+LCD_RS equ P1.3
+LCD_EN equ P1.2
+LED_FECHADO equ P2.1 ; LED vermelho (fechado)
+LED_ABERTO equ P2.0  ; LED verde (aberto)
 
+org 0000h
+    LJMP INICIO
+
+org 0030h
+INICIO: ; Configura a senha padrão
+    MOV 40H, #'0'
+    MOV 41H, #'0'
+    MOV 42H, #'0'
+    MOV 43H, #'0'
+    ACALL inicializaLCD
+    ACALL EXIBE_MSG
+    ACALL CONFIGURA_LEDS ; Inicializa LEDs (fechadura inicialmente fechada)
