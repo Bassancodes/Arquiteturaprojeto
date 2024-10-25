@@ -70,3 +70,31 @@ HASH:
     CJNE A, #35, FULL ; Se o valor lido não for `#` (35), continue aguardando
     CALL REDIFINE_SENHA ; Se for `#`, chama a função que redefine a senha
     RET
+VERIFICA_SENHA:
+    ; Função para verificar a senha digitada com a senha armazenada
+    MOV R1, #40H ; Inicia o ponteiro na senha armazenada
+    MOV R2, #60H ; Inicia o ponteiro na senha digitada
+    MOV A, @R2
+    CJNE A, @R1, ERRO
+    INC R1
+    INC R2
+    MOV A, @R2
+    CJNE A, @R1, ERRO
+    INC R1
+    INC R2
+    MOV A, @R2
+    CJNE A, @R1, ERRO
+    INC R1
+    INC R2
+    MOV A, @R2
+    CJNE A, @R1, ERRO
+    ; Senha correta
+    ACALL ABRE_FECHADURA
+    RET
+
+ERRO:
+    ; Exibe mensagem de erro e mantém LED vermelho
+    ACALL MSG_ERRADA
+    SETB LED_FECHADO   ; Acende o LED vermelho (fechado)
+    CLR LED_ABERTO     ; Apaga o LED verde (aberto)
+    RET
