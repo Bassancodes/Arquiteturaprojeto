@@ -9,7 +9,8 @@ Ao iniciar o sistema, uma senha padrão "0000" é definida. O usuário pode inse
 *Verificar Senha: Pressionando o botão asterisco (*), o sistema verifica se a senha inserida está correta. Se a senha for correta, o sistema exibe a mensagem "ABERTO" no display LCD e acende um LED verde para indicar que a fechadura foi aberta.
 O sistema oferece uma experiência prática e flexível, permitindo ao usuário alterar a senha sempre que necessário, mantendo a segurança e simplificando o gerenciamento de acessos.
 
-Funcionalidades
+#Funcionalidades:
+
 ##Senha Padrão: 
 O sistema inicia com a senha "0000".
 
