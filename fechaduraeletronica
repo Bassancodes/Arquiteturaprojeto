@@ -54,3 +54,19 @@ EXIBE_MSG:
     MOV A, #'A'
     ACALL escreveCaractere
     RET
+FULL: ; Função para aguardar `#` ou `*` quando a memória está cheia
+    ACALL leituraTeclado
+    JNB F0, FULL  ; Aguarda até que uma tecla seja pressionada
+    MOV A, #40H   ; Carrega o endereço base da memória onde a senha está armazenada
+    ADD A, R0     ; Adiciona o valor de R0 ao endereço para obter o valor da tecla
+    MOV R0, A     ; Move o valor resultante para R0
+    MOV A, @R0    ; Carrega o valor da memória no acumulador
+    CLR F0        ; Limpa a flag F0
+    CJNE A, #42, HASH ; Se o valor lido não for `*` (42), vá para HASH
+    CALL VERIFICA_SENHA ; Se for `*`, chama a função que verifica a senha
+    RET
+
+HASH: 
+    CJNE A, #35, FULL ; Se o valor lido não for `#` (35), continue aguardando
+    CALL REDIFINE_SENHA ; Se for `#`, chama a função que redefine a senha
+    RET
