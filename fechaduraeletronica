@@ -15,3 +15,42 @@ INICIO: ; Configura a senha padrão
     ACALL inicializaLCD
     ACALL EXIBE_MSG
     ACALL CONFIGURA_LEDS ; Inicializa LEDs (fechadura inicialmente fechada)
+
+CONFIGURA_LEDS:
+    ; Inicializa o estado dos LEDs
+    SETB LED_FECHADO  ; Acende LED Vermelho (Fechado)
+    CLR LED_ABERTO    ; Apaga LED Verde (Aberto)
+    RET
+
+EXIBE_MSG:
+    MOV A, #01h
+    ACALL posicionaCursor
+    MOV A, #'D'
+    ACALL escreveCaractere
+    MOV A, #'I'
+    ACALL escreveCaractere
+    MOV A, #'G'
+    ACALL escreveCaractere
+    MOV A, #'I'
+    ACALL escreveCaractere
+    MOV A, #'T'
+    ACALL escreveCaractere
+    MOV A, #'E'
+    ACALL escreveCaractere
+    MOV A, #' '
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    MOV A, #' '
+    ACALL escreveCaractere
+    MOV A, #'S'
+    ACALL escreveCaractere
+    MOV A, #'E'
+    ACALL escreveCaractere
+    MOV A, #'N'
+    ACALL escreveCaractere
+    MOV A, #'H'
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    RET
