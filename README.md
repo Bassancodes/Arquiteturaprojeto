@@ -10,7 +10,7 @@ Ao iniciar o sistema, uma senha padrão "0000" é definida. O usuário pode inse
 O sistema oferece uma experiência prática e flexível, permitindo ao usuário alterar a senha sempre que necessário, mantendo a segurança e simplificando o gerenciamento de acessos.
 
 Funcionalidades
-*Senha Padrão: O sistema inicia com a senha "0000".
+-Senha Padrão: O sistema inicia com a senha "0000".
 *Inserção de Senha: O usuário pode digitar uma senha de quatro dígitos utilizando o teclado matricial.
 *Redefinição de Senha: Ao pressionar #, o sistema permite a redefinição da senha para uma nova sequência de quatro dígitos.
 *Verificação de Senha: Ao pressionar *, o sistema verifica a senha inserida.
