@@ -25,3 +25,15 @@ LED Verde: Indica que a fechadura está aberta.
 LED Vermelho: Indica que a fechadura está fechada.
 
 Proteção de Memória: O sistema entra em um modo de espera (função FULL) quando a memória está cheia, aguardando que o usuário pressione # ou * para redefinir ou verificar a senha.
+
+Como Usar
+Inicialização: Ao iniciar o sistema, a senha padrão "0000" estará ativa.
+Inserção de Senha:
+Utilize o teclado para digitar uma senha de quatro dígitos.
+Ações Disponíveis:
+Pressione # para redefinir a senha. Digite a nova senha e confirme para armazená-la.
+Pressione * para verificar a senha digitada.
+Senha Correta: O display exibirá "ABERTO" e o LED verde acenderá.
+Senha Incorreta: O display exibirá "ERRO" e o LED vermelho permanecerá aceso.
+Modo de Memória Cheia:
+Quando a memória estiver cheia, o sistema entrará no modo FULL, onde aguardará que o usuário pressione # ou * para redefinir ou verificar a senha.
