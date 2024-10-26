@@ -98,3 +98,80 @@ ERRO:
     SETB LED_FECHADO   ; Acende o LED vermelho (fechado)
     CLR LED_ABERTO     ; Apaga o LED verde (aberto)
     RET
+
+
+REDIFINE_SENHA:
+    ; Função para redefinir senha
+    MOV A, #'N'
+    ACALL escreveCaractere
+    MOV A, #'O'
+    ACALL escreveCaractere
+    MOV A, #'V'
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    ACALL AGUARDA_NOVA_SENHA
+    RET
+
+AGUARDA_NOVA_SENHA:
+    ; Espera e salva nova senha
+    ACALL leituraTeclado
+    MOV 40H, A
+    ACALL leituraTeclado
+    MOV 41H, A
+    ACALL leituraTeclado
+    MOV 42H, A
+    ACALL leituraTeclado
+    MOV 43H, A
+    ; Exibe mensagem "Senha definida"
+    ACALL MSG_SENHA_DEFINIDA
+    RET
+
+MSG_SENHA_DEFINIDA:
+    ; Exibe a mensagem de "Senha definida"
+    MOV A, #01H
+    ACALL posicionaCursor
+    MOV A, #'S'
+    ACALL escreveCaractere
+    MOV A, #'E'
+    ACALL escreveCaractere
+    MOV A, #'N'
+    ACALL escreveCaractere
+    MOV A, #'H'
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    MOV A, #' '
+    ACALL escreveCaractere
+    MOV A, #'D'
+    ACALL escreveCaractere
+    MOV A, #'E'
+    ACCALL escreveCaractere
+    MOV A, #'F'
+    ACALL escreveCaractere
+    MOV A, #'I'
+    ACALL escreveCaractere
+    MOV A, #'N'
+    ACALL escreveCaractere
+    MOV A, #'I'
+    ACALL escreveCaractere
+    MOV A, #'D'
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    RET
+
+MSG_ERRADA:
+    ; Exibe mensagem de erro
+    MOV A, #01H
+    ACALL posicionaCursor
+    MOV A, #'E'
+    ACALL escreveCaractere
+    MOV A, #'R'
+    ACALL escreveCaractere
+    MOV A, #'R'
+    ACALL escreveCaractere
+    MOV A, #'O'
+    ACALL escreveCaractere
+    RET
+
