@@ -175,3 +175,73 @@ MSG_ERRADA:
     ACALL escreveCaractere
     RET
 
+
+ABRE_FECHADURA:
+    ; Abre a fechadura e acende o LED verde
+    CLR LED_FECHADO  ; Apaga o LED vermelho
+    SETB LED_ABERTO   ; Acende o LED verde
+    ACALL MSG_LIBERADO
+    RET
+
+MSG_LIBERADO:
+    ; Exibe mensagem de sucesso (fechadura liberada)
+    MOV A, #01H
+    ACALL posicionaCursor
+    MOV A, #'L'
+    ACALL escreveCaractere
+    MOV A, #'I'
+    ACALL escreveCaractere
+    MOV A, #'B'
+    ACALL escreveCaractere
+    MOV A, #'E'
+    ACALL escreveCaractere
+    MOV A, #'R'
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    MOV A, #'D'
+    ACALL escreveCaractere
+    MOV A, #'O'
+    ACALL escreveCaractere
+    RET
+
+screveCaractere:
+    SETB LCD_RS
+    MOV P1.7, C
+    CALL delay
+    CLR LCD_RS
+    RET
+
+posicionaCursor:
+    MOV P1.7, #1
+    RET
+
+delay:
+    MOV R7, #120
+    DJNZ R7, $
+    RET
+
+leituraTeclado:
+    MOV R0, #0
+    MOV P0, #0FFH
+    CLR P0.0
+    CALL varreduraColunas
+    JB F0, fimLeitura
+    RET
+
+varreduraColunas:
+    JNB P0.4, teclaDetectada
+    INC R0
+    RET
+
+teclaDetectada:
+    SETB F0
+    RET
+
+inicializaLCD:
+    CLR LCD_RS
+    CLR P1.7
+    SETB LCD_EN
+    ACALL delay
+    CLR LCD_EN
+    RET
