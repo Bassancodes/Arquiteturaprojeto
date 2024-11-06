@@ -15,6 +15,7 @@ INICIO: ; Configura a senha padrão
     ACALL inicializaLCD
     ACALL EXIBE_MSG
     ACALL CONFIGURA_LEDS ; Inicializa LEDs (fechadura inicialmente fechada)
+    RET
 
 CONFIGURA_LEDS:
     ; Inicializa o estado dos LEDs
@@ -54,6 +55,7 @@ EXIBE_MSG:
     MOV A, #'A'
     ACALL escreveCaractere
     RET
+
 FULL: ; Função para aguardar `#` ou `*` quando a memória está cheia
     ACALL leituraTeclado
     JNB F0, FULL  ; Aguarda até que uma tecla seja pressionada
@@ -63,13 +65,14 @@ FULL: ; Função para aguardar `#` ou `*` quando a memória está cheia
     MOV A, @R0    ; Carrega o valor da memória no acumulador
     CLR F0        ; Limpa a flag F0
     CJNE A, #42, HASH ; Se o valor lido não for `*` (42), vá para HASH
-    CALL VERIFICA_SENHA ; Se for `*`, chama a função que verifica a senha
+    ACALL VERIFICA_SENHA ; Se for `*`, chama a função que verifica a senha
     RET
 
 HASH: 
     CJNE A, #35, FULL ; Se o valor lido não for `#` (35), continue aguardando
-    CALL REDIFINE_SENHA ; Se for `#`, chama a função que redefine a senha
+    ACALL REDIFINE_SENHA ; Se for `#`, chama a função que redefine a senha
     RET
+
 VERIFICA_SENHA:
     ; Função para verificar a senha digitada com a senha armazenada
     MOV R1, #40H ; Inicia o ponteiro na senha armazenada
@@ -98,7 +101,6 @@ ERRO:
     SETB LED_FECHADO   ; Acende o LED vermelho (fechado)
     CLR LED_ABERTO     ; Apaga o LED verde (aberto)
     RET
-
 
 REDIFINE_SENHA:
     ; Função para redefinir senha
@@ -146,7 +148,7 @@ MSG_SENHA_DEFINIDA:
     MOV A, #'D'
     ACALL escreveCaractere
     MOV A, #'E'
-    ACCALL escreveCaractere
+    ACALL escreveCaractere
     MOV A, #'F'
     ACALL escreveCaractere
     MOV A, #'I'
@@ -174,7 +176,6 @@ MSG_ERRADA:
     MOV A, #'O'
     ACALL escreveCaractere
     RET
-
 
 ABRE_FECHADURA:
     ; Abre a fechadura e acende o LED verde
@@ -205,10 +206,10 @@ MSG_LIBERADO:
     ACALL escreveCaractere
     RET
 
-screveCaractere:
+escreveCaractere:
     SETB LCD_RS
     MOV P1.7, C
-    CALL delay
+    ACALL delay
     CLR LCD_RS
     RET
 
@@ -225,7 +226,7 @@ leituraTeclado:
     MOV R0, #0
     MOV P0, #0FFH
     CLR P0.0
-    CALL varreduraColunas
+    ACALL varreduraColunas
     JB F0, fimLeitura
     RET
 
@@ -243,5 +244,5 @@ inicializaLCD:
     CLR P1.7
     SETB LCD_EN
     ACALL delay
-    CLR LCD_EN
-    RET
+    CLR LCD_EN
+    RET
