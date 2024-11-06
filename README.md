@@ -37,3 +37,25 @@ Senha Correta: O display exibirá "ABERTO" e o LED verde acenderá.
 Senha Incorreta: O display exibirá "ERRO" e o LED vermelho permanecerá aceso.
 Modo de Memória Cheia:
 Quando a memória estiver cheia, o sistema entrará no modo FULL, onde aguardará que o usuário pressione # ou * para redefinir ou verificar a senha.
+
+Aqui você pode ver o painel inicial, nesse painel aparece o texto "digite a senha"
+
+![image](https://github.com/user-attachments/assets/71ed673d-d8e0-4bec-882c-85e186c48646) 
+
+Ao digitar a senha certa você recebera a mensagem liberado
+
+![image](https://github.com/user-attachments/assets/86e806fc-d67b-410d-b6b0-9eef04ade99b)
+
+Caso contrario a mensagem que ira aparecer no visor sera Erro
+
+![image](https://github.com/user-attachments/assets/65340745-85ac-4b19-9d9b-5fe250269ee3)
+
+Aqui esta um diagrama/fluxograma do projeto 
+
+![image](https://github.com/user-attachments/assets/74144315-6fde-48e6-8dc7-b54a6d5cd3fb)
+
+Por fim, o desenho esquemático do edsim51
+
+![image](https://github.com/user-attachments/assets/c123b222-75a6-421b-8cc1-743981985ef5)
+
+
