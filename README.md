@@ -42,13 +42,16 @@ Aqui você pode ver o painel inicial, nesse painel aparece o texto "digite a sen
 
 ![image](https://github.com/user-attachments/assets/71ed673d-d8e0-4bec-882c-85e186c48646) 
 
-Ao digitar a senha certa você recebera a mensagem liberado
+Ao digitar a senha certa você recebera a mensagem aberto
 
-![image](https://github.com/user-attachments/assets/86e806fc-d67b-410d-b6b0-9eef04ade99b)
+![image](https://github.com/user-attachments/assets/06e8287c-eff3-4248-ae3b-b16b83b71049)
 
-Caso contrario a mensagem que ira aparecer no visor sera Erro
 
-![image](https://github.com/user-attachments/assets/65340745-85ac-4b19-9d9b-5fe250269ee3)
+
+Caso contrario a mensagem que ira aparecer no visor sera Errado
+
+![image](https://github.com/user-attachments/assets/50b785e3-de32-474c-82b1-166b152c9413)
+
 
 Aqui esta um diagrama/fluxograma do projeto 
 
