@@ -52,10 +52,12 @@ Caso contrario a mensagem que ira aparecer no visor sera Erro
 
 Aqui esta um diagrama/fluxograma do projeto 
 
-![image](https://github.com/user-attachments/assets/74144315-6fde-48e6-8dc7-b54a6d5cd3fb)
+![image](https://github.com/user-attachments/assets/29f4eec3-457c-4cc6-bb7f-63183db952e8)
+
 
 Por fim, o desenho esquemático do edsim51
 
-![image](https://github.com/user-attachments/assets/c123b222-75a6-421b-8cc1-743981985ef5)
+![image](https://github.com/user-attachments/assets/27acdfce-081d-4c6d-b87f-91e3f9ce7802)
+
 
 
