@@ -109,9 +109,7 @@ MSG_LIBERADO:
     MOV A, #0x80       ; Posição inicial do cursor (linha 1, posição 1)
     ACALL comandoLCD
 
-    MOV A, #'L'
-    ACALL escreveCaractere
-    MOV A, #'I'
+    MOV A, #'A'
     ACALL escreveCaractere
     MOV A, #'B'
     ACALL escreveCaractere
@@ -119,12 +117,9 @@ MSG_LIBERADO:
     ACALL escreveCaractere
     MOV A, #'R'
     ACALL escreveCaractere
-    MOV A, #'A'
-    ACALL escreveCaractere
-    MOV A, #'D'
+    MOV A, #'T'
     ACALL escreveCaractere
     MOV A, #'O'
-    ACALL escreveCaractere
     RET
 
 MSG_ERRADA:
@@ -137,6 +132,10 @@ MSG_ERRADA:
     MOV A, #'R'
     ACALL escreveCaractere
     MOV A, #'R'
+    ACALL escreveCaractere
+    MOV A, #'A'
+    ACALL escreveCaractere
+    MOV A, #'D'
     ACALL escreveCaractere
     MOV A, #'O'
     ACALL escreveCaractere
