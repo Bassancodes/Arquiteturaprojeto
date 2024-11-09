@@ -1,13 +1,14 @@
-LCD_RS equ P1.3
-LCD_EN equ P1.2
+LCD_RS equ P1.3     ; Pino RS do LCD conectado ao P1.3
+LCD_EN equ P1.2     ; Pino E do LCD conectado ao P1.2
 LED_FECHADO equ P2.1 ; LED vermelho (fechado)
 LED_ABERTO equ P2.0  ; LED verde (aberto)
 
-org 0000h
+ORG 0000H
     LJMP INICIO
 
-org 0030h
-INICIO: ; Configura a senha padrão
+ORG 0030H
+INICIO:
+    ; Configura a senha padrão
     MOV 40H, #'0'
     MOV 41H, #'0'
     MOV 42H, #'0'
@@ -24,8 +25,10 @@ CONFIGURA_LEDS:
     RET
 
 EXIBE_MSG:
-    MOV A, #01h
-    ACALL posicionaCursor
+    ; Exibe a mensagem "DIGITE A SENHA" no LCD
+    MOV A, #0x80       ; Posição inicial do cursor (linha 1, posição 1)
+    ACALL comandoLCD
+
     MOV A, #'D'
     ACALL escreveCaractere
     MOV A, #'I'
@@ -56,41 +59,33 @@ EXIBE_MSG:
     ACALL escreveCaractere
     RET
 
-FULL: ; Função para aguardar `#` ou `*` quando a memória está cheia
-    ACALL leituraTeclado
-    JNB F0, FULL  ; Aguarda até que uma tecla seja pressionada
-    MOV A, #40H   ; Carrega o endereço base da memória onde a senha está armazenada
-    ADD A, R0     ; Adiciona o valor de R0 ao endereço para obter o valor da tecla
-    MOV R0, A     ; Move o valor resultante para R0
-    MOV A, @R0    ; Carrega o valor da memória no acumulador
-    CLR F0        ; Limpa a flag F0
-    CJNE A, #42, HASH ; Se o valor lido não for `*` (42), vá para HASH
-    ACALL VERIFICA_SENHA ; Se for `*`, chama a função que verifica a senha
-    RET
-
-HASH: 
-    CJNE A, #35, FULL ; Se o valor lido não for `#` (35), continue aguardando
-    ACALL REDIFINE_SENHA ; Se for `#`, chama a função que redefine a senha
-    RET
-
 VERIFICA_SENHA:
-    ; Função para verificar a senha digitada com a senha armazenada
-    MOV R1, #40H ; Inicia o ponteiro na senha armazenada
-    MOV R2, #60H ; Inicia o ponteiro na senha digitada
-    MOV A, @R2
-    CJNE A, @R1, ERRO
+    ; Verifica a senha digitada com a senha armazenada
+    MOV R0, #40H    ; Ponteiro para a senha armazenada
+    MOV R1, #60H    ; Ponteiro para a senha digitada
+
+    MOV A, @R1      ; Carrega o primeiro dígito da senha digitada no acumulador
+    MOV B, @R0      ; Carrega o primeiro dígito da senha armazenada em B
+    CJNE A, B, ERRO ; Se diferente, vá para ERRO
+    INC R0          ; Avança para o próximo endereço na senha armazenada
+    INC R1          ; Avança para o próximo endereço na senha digitada
+
+    MOV A, @R1
+    MOV B, @R0
+    CJNE A, B, ERRO
+    INC R0
     INC R1
-    INC R2
-    MOV A, @R2
-    CJNE A, @R1, ERRO
+
+    MOV A, @R1
+    MOV B, @R0
+    CJNE A, B, ERRO
+    INC R0
     INC R1
-    INC R2
-    MOV A, @R2
-    CJNE A, @R1, ERRO
-    INC R1
-    INC R2
-    MOV A, @R2
-    CJNE A, @R1, ERRO
+
+    MOV A, @R1
+    MOV B, @R0
+    CJNE A, B, ERRO
+
     ; Senha correta
     ACALL ABRE_FECHADURA
     RET
@@ -102,81 +97,6 @@ ERRO:
     CLR LED_ABERTO     ; Apaga o LED verde (aberto)
     RET
 
-REDIFINE_SENHA:
-    ; Função para redefinir senha
-    MOV A, #'N'
-    ACALL escreveCaractere
-    MOV A, #'O'
-    ACALL escreveCaractere
-    MOV A, #'V'
-    ACALL escreveCaractere
-    MOV A, #'A'
-    ACALL escreveCaractere
-    ACALL AGUARDA_NOVA_SENHA
-    RET
-
-AGUARDA_NOVA_SENHA:
-    ; Espera e salva nova senha
-    ACALL leituraTeclado
-    MOV 40H, A
-    ACALL leituraTeclado
-    MOV 41H, A
-    ACALL leituraTeclado
-    MOV 42H, A
-    ACALL leituraTeclado
-    MOV 43H, A
-    ; Exibe mensagem "Senha definida"
-    ACALL MSG_SENHA_DEFINIDA
-    RET
-
-MSG_SENHA_DEFINIDA:
-    ; Exibe a mensagem de "Senha definida"
-    MOV A, #01H
-    ACALL posicionaCursor
-    MOV A, #'S'
-    ACALL escreveCaractere
-    MOV A, #'E'
-    ACALL escreveCaractere
-    MOV A, #'N'
-    ACALL escreveCaractere
-    MOV A, #'H'
-    ACALL escreveCaractere
-    MOV A, #'A'
-    ACALL escreveCaractere
-    MOV A, #' '
-    ACALL escreveCaractere
-    MOV A, #'D'
-    ACALL escreveCaractere
-    MOV A, #'E'
-    ACALL escreveCaractere
-    MOV A, #'F'
-    ACALL escreveCaractere
-    MOV A, #'I'
-    ACALL escreveCaractere
-    MOV A, #'N'
-    ACALL escreveCaractere
-    MOV A, #'I'
-    ACALL escreveCaractere
-    MOV A, #'D'
-    ACALL escreveCaractere
-    MOV A, #'A'
-    ACALL escreveCaractere
-    RET
-
-MSG_ERRADA:
-    ; Exibe mensagem de erro
-    MOV A, #01H
-    ACALL posicionaCursor
-    MOV A, #'E'
-    ACALL escreveCaractere
-    MOV A, #'R'
-    ACALL escreveCaractere
-    MOV A, #'R'
-    ACALL escreveCaractere
-    MOV A, #'O'
-    ACALL escreveCaractere
-    RET
-
 ABRE_FECHADURA:
     ; Abre a fechadura e acende o LED verde
     CLR LED_FECHADO  ; Apaga o LED vermelho
@@ -186,8 +106,9 @@ ABRE_FECHADURA:
 
 MSG_LIBERADO:
     ; Exibe mensagem de sucesso (fechadura liberada)
-    MOV A, #01H
-    ACALL posicionaCursor
+    MOV A, #0x80       ; Posição inicial do cursor (linha 1, posição 1)
+    ACALL comandoLCD
+
     MOV A, #'L'
     ACALL escreveCaractere
     MOV A, #'I'
@@ -206,43 +127,81 @@ MSG_LIBERADO:
     ACALL escreveCaractere
     RET
 
-escreveCaractere:
-    SETB LCD_RS
-    MOV P1.7, C
-    ACALL delay
-    CLR LCD_RS
-    RET
+MSG_ERRADA:
+    ; Exibe mensagem de erro
+    MOV A, #0x80       ; Posição inicial do cursor (linha 1, posição 1)
+    ACALL comandoLCD
 
-posicionaCursor:
-    MOV P1.7, #1
-    RET
-
-delay:
-    MOV R7, #120
-    DJNZ R7, $
-    RET
-
-leituraTeclado:
-    MOV R0, #0
-    MOV P0, #0FFH
-    CLR P0.0
-    ACALL varreduraColunas
-    JB F0, fimLeitura
-    RET
-
-varreduraColunas:
-    JNB P0.4, teclaDetectada
-    INC R0
-    RET
-
-teclaDetectada:
-    SETB F0
+    MOV A, #'E'
+    ACALL escreveCaractere
+    MOV A, #'R'
+    ACALL escreveCaractere
+    MOV A, #'R'
+    ACALL escreveCaractere
+    MOV A, #'O'
+    ACALL escreveCaractere
     RET
 
 inicializaLCD:
-    CLR LCD_RS
-    CLR P1.7
-    SETB LCD_EN
+    ; Sequência de inicialização do LCD em modo 4 bits
+    MOV A, #0x02             ; Configura o LCD para modo 4 bits
+    ACALL comandoLCD
+    MOV A, #0x28             ; Função set: 4 bits, 2 linhas, 5x8 dots
+    ACALL comandoLCD
+    MOV A, #0x0C             ; Display ON, Cursor OFF
+    ACALL comandoLCD
+    MOV A, #0x06             ; Entry Mode: Incrementa e sem deslocamento
+    ACALL comandoLCD
+    MOV A, #0x01             ; Clear display
+    ACALL comandoLCD
+    RET
+
+comandoLCD:
+    ; Envia um comando em modo 4 bits
+    CLR LCD_RS               ; Modo comando
+
+    ; Envia o nibble alto
+    MOV B, A                 ; Armazena o valor original em B
+    SWAP A                   ; Troca nibbles
+    ANL A, #0xF0             ; Limpa o nibble baixo
+    MOV P1, A                ; Envia o nibble alto para P1
+    SETB LCD_EN              ; Habilita o LCD
     ACALL delay
-    CLR LCD_EN
+    CLR LCD_EN               ; Desabilita o LCD
+
+    ; Envia o nibble baixo
+    MOV A, B                 ; Restaura o valor original de A
+    ANL A, #0x0F             ; Limpa o nibble alto
+    MOV P1, A                ; Envia o nibble baixo para P1
+    SETB LCD_EN              ; Habilita o LCD
+    ACALL delay
+    CLR LCD_EN               ; Desabilita o LCD
+    RET
+
+escreveCaractere:
+    SETB LCD_RS              ; Modo caractere
+
+    ; Envia o nibble alto
+    MOV B, A                 ; Armazena o valor original em B
+    SWAP A                   ; Troca nibbles
+    ANL A, #0xF0             ; Limpa o nibble baixo
+    MOV P1, A                ; Envia o nibble alto para P1
+    SETB LCD_EN              ; Habilita o LCD
+    ACALL delay
+    CLR LCD_EN               ; Desabilita o LCD
+
+    ; Envia o nibble baixo
+    MOV A, B                 ; Restaura o valor original de A
+    ANL A, #0x0F             ; Limpa o nibble alto
+    MOV P1, A                ; Envia o nibble baixo para P1
+    SETB LCD_EN              ; Habilita o LCD
+    ACALL delay
+    CLR LCD_EN               ; Desabilita o LCD
+    RET
+
+delay:
+    ; Delay simples para o LCD
+    MOV R7, #120
+DELAY_LOOP:
+    DJNZ R7, DELAY_LOOP
     RET
